@@ -1,6 +1,11 @@
 import NewProjectBtn from "./NewProjectBtn";
 
-export default function Sidebar({ onAddProject, homePage, onViewHome }) {
+export default function Sidebar({
+  projects,
+  onAddProject,
+  homePage,
+  onViewHome,
+}) {
   return (
     <aside className="w-1/3 px-8 py-16 bg-stone-900 text-stone-50 md:w-72 rounded-r-xl">
       {!homePage && (
@@ -14,7 +19,17 @@ export default function Sidebar({ onAddProject, homePage, onViewHome }) {
       <div>
         <NewProjectBtn onClick={onAddProject}>+ Add Project</NewProjectBtn>
       </div>
-      <ul></ul>
+      <ul className="mt-8">
+        {projects.map(({ id, title, description, dueDate }) => {
+          return (
+            <li key={id}>
+              <button className="w-full text-left px-3 py-1 rounded-sm my-2 text-stone-400 hover:text-stone-200 hover:bg-stone-800 border-2 border-stone-600">
+                {title}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </aside>
   );
 }

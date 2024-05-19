@@ -19,6 +19,7 @@ function App() {
   }
 
   function handleSaveProjectDetails(projectData) {
+    const projectId = Math.random();
     setProjectsState((prevState) => {
       return {
         selectedProjectId: undefined,
@@ -26,8 +27,18 @@ function App() {
           ...prevState.projects,
           {
             ...projectData,
+            id: projectId,
           },
         ],
+      };
+    });
+  }
+
+  function handleCancelAddProject() {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
       };
     });
   }
@@ -46,7 +57,12 @@ function App() {
   let content;
 
   if (projectsState.selectedProjectId === null) {
-    content = <NewProject onSaveProjectDetails={handleSaveProjectDetails} />;
+    content = (
+      <NewProject
+        onSaveProjectDetails={handleSaveProjectDetails}
+        onCancel={handleCancelAddProject}
+      />
+    );
   } else if (projectsState.selectedProjectId === undefined) {
     content = <NoProjectSelected onAddProject={handleAddProject} />;
   }
@@ -54,6 +70,7 @@ function App() {
   return (
     <main className="h-screen flex gap-8">
       <Sidebar
+        projects={projectsState.projects}
         homePage={homePage}
         onViewHome={handleViewHomePage}
         onAddProject={handleAddProject}
